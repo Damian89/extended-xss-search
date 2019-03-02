@@ -46,7 +46,19 @@ class PrepareAttackRequest:
 
             self.__resort_parameters()
 
-            if self.config.type_get:
+            if self.config.type_only_base_request and self.config.type_get:
+                self.custom_params_base_get = list(self.__chunks(self.custom_params, self.config.chunk_size_get))
+
+                for inner_list in self.custom_params_base_get:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '', inner_list)
+
+            if self.config.type_only_base_request and self.config.type_post:
+                self.custom_params_base_post = list(self.__chunks(self.custom_params, self.config.chunk_size_post))
+
+                for inner_list in self.custom_params_base_post:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, '', inner_list)
+
+            if self.config.type_get and not self.config.type_only_base_request:
 
                 self.custom_params_get = list(self.__chunks(self.custom_params, self.config.chunk_size_get))
 
@@ -62,7 +74,7 @@ class PrepareAttackRequest:
                     self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
                     self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
 
-            if self.config.type_post:
+            if self.config.type_post and not self.config.type_only_base_request:
 
                 self.custom_params_post = list(self.__chunks(self.custom_params, self.config.chunk_size_post))
 

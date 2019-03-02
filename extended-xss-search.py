@@ -75,6 +75,33 @@ def main():
     ))
 
     if config.type_only_base_request:
+
+        attack_base_tests = PrepareAttackRequest(config, host_params).tests
+
+        queue_base_p_requests = queue.Queue()
+        threads = []
+
+        for workerIterator in range(0, config.max_threads):
+            print("{} Worker {} started...".format(
+                Color.green("[ i ]"),
+                workerIterator
+            ))
+
+            worker = WorkOnTestRequest(config, queue_base_p_requests, workerIterator)
+
+            worker.setDaemon(True)
+
+            worker.start()
+
+            threads.append(worker)
+
+        for data in attack_base_tests:
+            queue_base_p_requests.put(data)
+
+        for item in threads:
+            item.join()
+
+    if config.type_only_base_request:
         print("{} Stopping because only base requests are allowed...".format(
             Color.red("[ i ]")
         ))
