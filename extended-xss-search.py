@@ -86,6 +86,10 @@ def main():
 
     attack_requests = PrepareAttackRequest(config, host_params).tests
 
+    print("{} Executing {} attacks/tests... could take a while!". format(
+        Color.red("[ i ]"),
+        len(attack_requests)
+    ))
     queue_test_requests = queue.Queue()
     threads = []
 
