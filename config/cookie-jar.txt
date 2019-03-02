@@ -1,0 +1,1 @@
+examplecookie=31337; testcookie=1; authcookie=1337

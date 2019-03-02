@@ -1,0 +1,7 @@
+.git
+.idea
+venv
+app-settings.conf
+config.live
+logs/*
+!logs/.gitkeep
