@@ -49,7 +49,9 @@ class Config:
         self.type_only_base_request = self.config.getboolean("types", "OnlyBaseRequest")
         self.chunk_size_get = int(self.config["type-settings"]["GetChunkSize"])
         self.chunk_size_post = int(self.config["type-settings"]["PostChunkSize"])
-
+        self.test_single_quote = self.config.getboolean("type-settings", "SingleQuoteTest")
+        self.test_double_quote = self.config.getboolean("type-settings", "DoubleQuoteTest")
+        self.test_bigger_sign = self.config.getboolean("type-settings", "BiggerSignTest")
         # Tunneling
         self.tunneling = self.config.getboolean("tunneling", "Active")
         self.tunnel = self.config["tunneling"]["Tunnel"]
