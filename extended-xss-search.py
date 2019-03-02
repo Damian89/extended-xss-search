@@ -76,7 +76,13 @@ def main():
 
     if config.type_only_base_request:
 
+
         attack_base_tests = PrepareAttackRequest(config, host_params).tests
+
+        print("{} Starting with {} payloaded base requests...".format(
+            Color.green("[ i ]"),
+            len(attack_base_tests)
+        ))
 
         queue_base_p_requests = queue.Queue()
         threads = []
@@ -107,6 +113,8 @@ def main():
         ))
 
         sys.exit()
+
+
     print("{} Preparing finale attack requests...".format(
         Color.green("[ i ]")
     ))
