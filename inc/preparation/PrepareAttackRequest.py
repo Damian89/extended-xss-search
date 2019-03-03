@@ -75,16 +75,18 @@ class PrepareAttackRequest:
                     if self.config.test_bigger_sign:
                         self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
 
-                for inner_list in self.wordlist_params_get:
 
-                    if self.config.test_double_quote:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
+                if self.config.extended_mode:
+                    for inner_list in self.wordlist_params_get:
 
-                    if self.config.test_single_quote:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
+                        if self.config.test_double_quote:
+                            self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
 
-                    if self.config.test_bigger_sign:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
+                        if self.config.test_single_quote:
+                            self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
+
+                        if self.config.test_bigger_sign:
+                            self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
 
             if self.config.type_post and not self.config.type_only_base_request:
 
@@ -103,16 +105,17 @@ class PrepareAttackRequest:
                     if self.config.test_bigger_sign:
                         self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
 
-                for inner_list in self.wordlist_params_post:
+                if self.config.extended_mode:
+                    for inner_list in self.wordlist_params_post:
 
-                    if self.config.test_double_quote:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, '"', inner_list)
+                        if self.config.test_double_quote:
+                            self.__put_post_attack_to_tests("POST", url, hostname, port, path, '"', inner_list)
 
-                    if self.config.test_single_quote:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
+                        if self.config.test_single_quote:
+                            self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
 
-                    if self.config.test_bigger_sign:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
+                        if self.config.test_bigger_sign:
+                            self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
 
     def __put_post_attack_to_tests(self, method, url, hostname, port, path, test_char, parameters):
 

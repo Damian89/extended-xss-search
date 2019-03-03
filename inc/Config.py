@@ -52,6 +52,7 @@ class Config:
         self.test_single_quote = self.config.getboolean("type-settings", "SingleQuoteTest")
         self.test_double_quote = self.config.getboolean("type-settings", "DoubleQuoteTest")
         self.test_bigger_sign = self.config.getboolean("type-settings", "BiggerSignTest")
+        self.extended_mode = self.config.getboolean("type-settings", "ExtendedMode")
         # Tunneling
         self.tunneling = self.config.getboolean("tunneling", "Active")
         self.tunnel = self.config["tunneling"]["Tunnel"]
