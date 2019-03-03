@@ -24,7 +24,7 @@ class Reflection:
     def __init__(self, attack_data, response_body, config):
         self.config = config
         self.data = attack_data
-        self.body = response_body.decode("utf-8")
+        self.body = response_body.decode("utf-8", "ignore")
         self.found = ""
 
     def log(self):

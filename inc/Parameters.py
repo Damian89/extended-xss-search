@@ -23,7 +23,7 @@ class Parameters:
 
     def __init__(self, data, response_body):
         self.data = data
-        self.response_body = response_body.decode("utf-8")
+        self.response_body = response_body.decode("utf-8", "ignore")
         self.parameters = []
 
     def extract_parameters_from_body(self):

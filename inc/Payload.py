@@ -28,7 +28,7 @@ class Payload:
 
         for param in parameters:
             identifier = hashlib.md5(param.encode('utf-16be')).hexdigest()
-            value = "{}{}{}".format(identifier[0:4], test_char, identifier[0:2])
+            value = "{}{}{}".format(identifier[0:5], test_char, identifier[0:2])
 
             self.payload_information[param] = value
 
