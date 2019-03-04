@@ -16,6 +16,7 @@
 #
 #  Author: Damian Schwyrz
 import hashlib
+import urllib.parse
 
 
 class Payload:
@@ -25,7 +26,7 @@ class Payload:
         self.payload_information = {}
 
     def generate_get_string(self, parameters, test_char):
-
+        test_char = urllib.parse.quote_plus(test_char)
         for param in parameters:
             identifier = hashlib.md5(param.encode('utf-16be')).hexdigest()
             value = "{}{}{}".format(identifier[0:5], test_char, identifier[0:2])

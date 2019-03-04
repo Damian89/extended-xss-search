@@ -29,7 +29,25 @@ class Reflection:
 
     def log(self):
         if self.found != "":
-            file = "{}{}.txt".format(self.config.log_folder,self.data["host"])
+            file = "{}{}.txt".format(self.config.log_folder, self.data["host"])
+            f = open(file, "a")
+            f.write(self.found)
+            f.close()
+
+    def log500(self, status):
+
+        if status == 500:
+
+            self.found = "Error {} {}\n".format(
+                self.data["method"],
+                self.data["url"]
+            )
+            if self.data["method"] == "POST":
+                self.found = "{}\n\nPayload: {}\n\n".format(self.found, self.data["body"])
+            if self.data["method"] == "GET":
+                self.found = "{}\n\nPayload: {}\n\n".format(self.found, self.data["path"])
+
+            file = "{}500-{}.txt".format(self.config.log_folder, self.data["host"])
             f = open(file, "a")
             f.write(self.found)
             f.close()
@@ -72,16 +90,17 @@ class Reflection:
                 search_value
             ))
 
-            self.found = "Found with value {} %: [{}] [{}={}]\nURL: {}".format(
-                int(100*value_of_finding),
-                self.data["method"],
-                paramdata,
-                search_value,
-                self.data["url"]
-            )
+            self.set_found_string(paramdata, search_value, value_of_finding)
 
-            if self.data["method"] == "POST":
-                self.found = "{}\n\nPayload: {}\n\n".format(self.found, self.data["body"])
-
-            if self.data["method"] == "GET":
-                self.found = "{}\n\nPayload: {}\n\n".format(self.found, self.data["path"])
+    def set_found_string(self, paramdata, search_value, value_of_finding):
+        self.found = "Found with value {} %: [{}] [{}={}]\nURL: {}".format(
+            int(100 * value_of_finding),
+            self.data["method"],
+            paramdata,
+            search_value,
+            self.data["url"]
+        )
+        if self.data["method"] == "POST":
+            self.found = "{}\n\nPayload: {}\n\n".format(self.found, self.data["body"])
+        if self.data["method"] == "GET":
+            self.found = "{}\n\nPayload: {}\n\n".format(self.found, self.data["path"])

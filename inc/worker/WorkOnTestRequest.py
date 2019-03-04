@@ -53,16 +53,18 @@ class WorkOnTestRequest(threading.Thread):
 
                 state = self.__make_color_state(response)
 
-                print("{} [Proc: {}] {} [{}]".format(
+                print("{} [Proc: {}] {} [{}] [Size: {}]".format(
                     state,
                     self.tid,
                     data["url"],
                     response.status,
+                    len(response_body)
                 ))
 
                 reflection = Reflection(data, response_body, self.config)
                 reflection.analyze()
                 reflection.log()
+                reflection.log500(response.status)
 
 
             except Exception as e:

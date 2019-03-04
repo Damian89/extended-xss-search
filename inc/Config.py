@@ -114,16 +114,20 @@ class Config:
 
         urls = open(file, "r").read().splitlines()
 
-        urls = "\n".join([url.rstrip() for url in urls if url.strip()])
+        relevant_urls = []
 
-        if len(urls) == 0:
+        for url in urls:
+            if url.startswith("#") or url.startswith(";"):
+                continue
+
+            relevant_urls.append(url.strip())
+
+        if len(relevant_urls) == 0:
             sys.exit("Url list seems to be empty!")
 
-        urls = urls.splitlines()
+        self.original_url_count = len(relevant_urls)
 
-        self.original_url_count = len(urls)
-
-        url_cleaner = Clean(urls)
+        url_cleaner = Clean(relevant_urls)
         url_cleaner.clean()
         self.urls = url_cleaner.cleaned_urls
         self.cleaned_url_count = len(self.urls)
@@ -136,10 +140,12 @@ class Config:
             print("{} Mode:\t\t\t{}".format(Color.green("[ i ]"), "Default mode"))
 
         if self.type_get:
-            print("{} GET:\t\t\t{} with chunk size of {}".format(Color.green("[ i ]"), "active", Color.green(self.chunk_size_get)))
+            print("{} GET:\t\t\t{} with chunk size of {}".format(Color.green("[ i ]"), "active",
+                                                                 Color.green(self.chunk_size_get)))
 
         if self.type_post:
-            print("{} POST:\t\t\t{} with chunk size of {}".format(Color.green("[ i ]"), "active", Color.green(self.chunk_size_post)))
+            print("{} POST:\t\t\t{} with chunk size of {}".format(Color.green("[ i ]"), "active",
+                                                                  Color.green(self.chunk_size_post)))
 
         print("{} Threads:\t\t\t{}".format(Color.orange("[ i ]"), self.max_threads))
         print("{} HTTP Timeout:\t\t{}".format(Color.orange("[ i ]"), self.http_timeout))
