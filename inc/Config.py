@@ -42,6 +42,7 @@ class Config:
         # Default settings
         self.http_timeout = int(self.config["default"]["HTTPTimeout"])
         self.max_threads = int(self.config["default"]["MaxThreads"])
+        self.shuffle_tests = self.config.getboolean("default", "ShuffleTests")
 
         # Attack methods
         self.type_get = self.config.getboolean("types", "UseGet")

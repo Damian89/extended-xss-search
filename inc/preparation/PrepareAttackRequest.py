@@ -19,6 +19,7 @@
 from urllib.parse import urlparse
 from inc.Headers import *
 from inc.Payload import *
+from random import shuffle
 
 
 class PrepareAttackRequest:
@@ -127,6 +128,9 @@ class PrepareAttackRequest:
 
                         if self.config.test_bigger_sign:
                             self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
+
+        if self.config.shuffle_tests:
+            shuffle(self.tests)
 
     def __put_post_attack_to_tests(self, method, url, hostname, port, path, test_char, parameters):
 
