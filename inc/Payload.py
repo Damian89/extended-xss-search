@@ -26,16 +26,17 @@ class Payload:
         self.payload_information = {}
 
     def generate_get_string(self, parameters, test_char):
-        test_char = urllib.parse.quote_plus(test_char)
+
         for param in parameters:
             identifier = hashlib.md5(param.encode('utf-16be')).hexdigest()
             value = "{}{}{}".format(identifier[0:5], test_char, identifier[0:2])
+
 
             self.payload_information[param] = value
 
         string = []
 
         for data in self.payload_information:
-            string.append("{}={}".format(data, self.payload_information[data]))
+            string.append("{}={}".format(data,  urllib.parse.quote_plus(self.payload_information[data])))
 
         self.string = "&".join(string)

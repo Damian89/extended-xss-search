@@ -69,12 +69,17 @@ class PrepareAttackRequest:
                     if self.config.test_double_quote:
                         self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
 
+                    if self.config.test_escaped_double_quote:
+                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\"', inner_list)
+
                     if self.config.test_single_quote:
                         self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
 
+                    if self.config.test_escaped_single_quote:
+                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\'', inner_list)
+
                     if self.config.test_bigger_sign:
                         self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
-
 
                 if self.config.extended_mode:
                     for inner_list in self.wordlist_params_get:
@@ -101,6 +106,12 @@ class PrepareAttackRequest:
 
                     if self.config.test_single_quote:
                         self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
+
+                    if self.config.test_escaped_double_quote:
+                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, '\\\"', inner_list)
+
+                    if self.config.test_escaped_single_quote:
+                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, "\\\'", inner_list)
 
                     if self.config.test_bigger_sign:
                         self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)

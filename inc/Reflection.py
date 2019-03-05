@@ -50,35 +50,42 @@ class Reflection:
             file = "{}500-{}.txt".format(self.config.log_folder, self.data["host"])
             f = open(file, "a")
             f.write(self.found)
-            f.close()
+            # f.close()
 
     def analyze(self):
 
         for paramdata in self.data["payload_information"]:
-            search_value = self.data["payload_information"][paramdata]
+            search_value = original_search_value = self.data["payload_information"][paramdata]
+            test_char = self.data["test_char"]
+
+            if '\\' in original_search_value:
+                search_value = original_search_value.replace('\\', '\\\\')
+                test_char = test_char.replace('\\', '')
 
             value_of_finding = 0
+
             if search_value not in self.body:
                 continue
 
             value_of_finding = 0.5
 
-            prepend_search_value = "{}{}".format(self.data["test_char"], search_value)
+            prepend_search_value = "{}{}".format(test_char, search_value)
 
             if prepend_search_value in self.body:
                 value_of_finding = value_of_finding + 0.25
 
-            append_search_value = "{}{}".format(search_value, self.data["test_char"])
+            append_search_value = "{}{}".format(search_value, test_char)
 
             if append_search_value in self.body:
                 value_of_finding = value_of_finding + 0.25
 
             print(
-                "\n{} [{}] Found parameter [{}] with reflextion [{}] [certainty: {}]".format(
+                "\n{} [{}] Found parameter [{}] with reflextion [{}] using payload [{}] [certainty: {}]".format(
                     Color.danger("[ ! ]"),
                     self.data["method"],
                     paramdata,
                     search_value,
+                    original_search_value,
                     Color.green("{} %".format(int(value_of_finding * 100)))
                 )
             )
@@ -87,13 +94,13 @@ class Reflection:
                 Color.red("[ - ]"),
                 self.data["url"],
                 paramdata,
-                search_value
+                original_search_value
             ))
 
             self.set_found_string(paramdata, search_value, value_of_finding)
 
     def set_found_string(self, paramdata, search_value, value_of_finding):
-        self.found = "Found with value {} %: [{}] [{}={}]\nURL: {}".format(
+        self.found = self.found + "Found with value {} %: [{}] [{}={}]\nURL: {}".format(
             int(100 * value_of_finding),
             self.data["method"],
             paramdata,

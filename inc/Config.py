@@ -51,6 +51,8 @@ class Config:
         self.chunk_size_post = int(self.config["type-settings"]["PostChunkSize"])
         self.test_single_quote = self.config.getboolean("type-settings", "SingleQuoteTest")
         self.test_double_quote = self.config.getboolean("type-settings", "DoubleQuoteTest")
+        self.test_escaped_single_quote = self.config.getboolean("type-settings", "EscapedSingleQuoteTest")
+        self.test_escaped_double_quote = self.config.getboolean("type-settings", "EscapedDoubleQuoteTest")
         self.test_bigger_sign = self.config.getboolean("type-settings", "BiggerSignTest")
         self.extended_mode = self.config.getboolean("type-settings", "ExtendedMode")
         # Tunneling
