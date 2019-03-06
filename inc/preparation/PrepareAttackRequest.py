@@ -47,90 +47,108 @@ class PrepareAttackRequest:
 
             self.__resort_parameters()
 
-            if self.config.type_only_base_request and self.config.type_get:
-                self.custom_params_base_get = list(self.__chunks(self.custom_params, self.config.chunk_size_get))
+            self.__create_tests_when_only_base_request_is_allowed(hostname, path, port, url)
 
-                for inner_list in self.custom_params_base_get:
-                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '', inner_list)
+            self.__create_tests_if_attack_mode_is_allowed(hostname, path, port, url)
 
-            if self.config.type_only_base_request and self.config.type_post:
-                self.custom_params_base_post = list(self.__chunks(self.custom_params, self.config.chunk_size_post))
+        self.__shuffle_tests_if_allowed()
 
-                for inner_list in self.custom_params_base_post:
-                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, '', inner_list)
-
-            if self.config.type_get and not self.config.type_only_base_request:
-
-                self.custom_params_get = list(self.__chunks(self.custom_params, self.config.chunk_size_get))
-
-                self.wordlist_params_get = list(self.__chunks(self.wordlist_params, self.config.chunk_size_get))
-
-                for inner_list in self.custom_params_get:
-
-                    if self.config.test_double_quote:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
-
-                    if self.config.test_escaped_double_quote:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\"', inner_list)
-
-                    if self.config.test_single_quote:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
-
-                    if self.config.test_escaped_single_quote:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\'', inner_list)
-
-                    if self.config.test_bigger_sign:
-                        self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
-
-                if self.config.extended_mode:
-                    for inner_list in self.wordlist_params_get:
-
-                        if self.config.test_double_quote:
-                            self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
-
-                        if self.config.test_single_quote:
-                            self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
-
-                        if self.config.test_bigger_sign:
-                            self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
-
-            if self.config.type_post and not self.config.type_only_base_request:
-
-                self.custom_params_post = list(self.__chunks(self.custom_params, self.config.chunk_size_post))
-
-                self.wordlist_params_post = list(self.__chunks(self.wordlist_params, self.config.chunk_size_post))
-
-                for inner_list in self.custom_params_post:
-
-                    if self.config.test_double_quote:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, '"', inner_list)
-
-                    if self.config.test_single_quote:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
-
-                    if self.config.test_escaped_double_quote:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, '\\\"', inner_list)
-
-                    if self.config.test_escaped_single_quote:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, "\\\'", inner_list)
-
-                    if self.config.test_bigger_sign:
-                        self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
-
-                if self.config.extended_mode:
-                    for inner_list in self.wordlist_params_post:
-
-                        if self.config.test_double_quote:
-                            self.__put_post_attack_to_tests("POST", url, hostname, port, path, '"', inner_list)
-
-                        if self.config.test_single_quote:
-                            self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
-
-                        if self.config.test_bigger_sign:
-                            self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
-
+    def __shuffle_tests_if_allowed(self):
         if self.config.shuffle_tests:
             shuffle(self.tests)
+
+    def __create_tests_if_attack_mode_is_allowed(self, hostname, path, port, url):
+        if self.config.type_get and not self.config.type_only_base_request:
+
+            self.custom_params_get = list(self.__chunks(self.custom_params, self.config.chunk_size_get))
+
+            self.wordlist_params_get = list(self.__chunks(self.wordlist_params, self.config.chunk_size_get))
+
+            for inner_list in self.custom_params_get:
+
+                if self.config.test_double_quote:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
+
+                if self.config.test_escaped_double_quote:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\"', inner_list)
+
+                if self.config.test_single_quote:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
+
+                if self.config.test_escaped_single_quote:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\'', inner_list)
+
+                if self.config.test_bigger_sign:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
+
+            for inner_list in self.wordlist_params_get:
+
+                if self.config.test_double_quote and self.config.extended_mode:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '"', inner_list)
+
+                if self.config.test_escaped_double_quote and self.config.extended_mode:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\"', inner_list)
+
+                if self.config.test_single_quote and self.config.extended_mode:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, "'", inner_list)
+
+                if self.config.test_escaped_single_quote and self.config.extended_mode:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, '\\\'', inner_list)
+
+                if self.config.test_bigger_sign and self.config.extended_mode:
+                    self.__put_get_attack_to_tests("GET", url, hostname, port, path, ">", inner_list)
+
+        if self.config.type_post and not self.config.type_only_base_request:
+
+            self.custom_params_post = list(self.__chunks(self.custom_params, self.config.chunk_size_post))
+
+            self.wordlist_params_post = list(self.__chunks(self.wordlist_params, self.config.chunk_size_post))
+
+            for inner_list in self.custom_params_post:
+
+                if self.config.test_double_quote:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, '"', inner_list)
+
+                if self.config.test_single_quote:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
+
+                if self.config.test_escaped_double_quote:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, '\\\"', inner_list)
+
+                if self.config.test_escaped_single_quote:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, "\\\'", inner_list)
+
+                if self.config.test_bigger_sign:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
+
+            for inner_list in self.wordlist_params_post:
+
+                if self.config.test_double_quote and self.config.extended_mode:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, '"', inner_list)
+
+                if self.config.test_escaped_double_quote and self.config.extended_mode:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, '\\\"', inner_list)
+
+                if self.config.test_single_quote and self.config.extended_mode:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, "'", inner_list)
+
+                if self.config.test_escaped_single_quote and self.config.extended_mode:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, "\\\'", inner_list)
+
+                if self.config.test_bigger_sign and self.config.extended_mode:
+                    self.__put_post_attack_to_tests("POST", url, hostname, port, path, ">", inner_list)
+
+    def __create_tests_when_only_base_request_is_allowed(self, hostname, path, port, url):
+        if self.config.type_only_base_request and self.config.type_get:
+            self.custom_params_base_get = list(self.__chunks(self.custom_params, self.config.chunk_size_get))
+
+            for inner_list in self.custom_params_base_get:
+                self.__put_get_attack_to_tests("GET", url, hostname, port, path, '', inner_list)
+        if self.config.type_only_base_request and self.config.type_post:
+            self.custom_params_base_post = list(self.__chunks(self.custom_params, self.config.chunk_size_post))
+
+            for inner_list in self.custom_params_base_post:
+                self.__put_post_attack_to_tests("POST", url, hostname, port, path, '', inner_list)
 
     def __put_post_attack_to_tests(self, method, url, hostname, port, path, test_char, parameters):
 
