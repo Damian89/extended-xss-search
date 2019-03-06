@@ -125,5 +125,5 @@ Please just create an issue and tag it as a feature request.
 
 ## Don't share
 
-I don't want that tool to be private currently. So be cool and don't share. If you have access to it, that means I like
+Currently, I want that tool to be private. So be cool and don't share. If you have access to it, that means I like
  you, learnt something from you (and want giving back) or you helped me a lot.
