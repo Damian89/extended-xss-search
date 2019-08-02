@@ -128,3 +128,4 @@ Please just create an issue and tag it as a feature request.
 Do you like that tool? Did it help you to get a bounty? Want to give something back/support me? Why not!<br />
 
 #### Donate via PayPal: <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PPHDNEJWY5UXJ&source=url">CLICK</a>
+
