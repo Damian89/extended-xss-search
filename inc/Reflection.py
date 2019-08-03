@@ -80,7 +80,7 @@ class Reflection:
                 value_of_finding = value_of_finding + 0.25
 
             print(
-                "\n{} [{}] Found parameter [{}] with reflextion [{}] using payload [{}] [certainty: {}]".format(
+                "\n{} [{}] Found parameter [{}] with reflection [{}] using payload [{}] [certainty: {}]".format(
                     Color.danger("[ ! ]"),
                     self.data["method"],
                     paramdata,
